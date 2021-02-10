@@ -1,0 +1,4 @@
+reply:
+  handler: handlers/reply.handler
+  events:
+    - sqs: ${self:custom.variables.reply-addition-sqs-queue-arn}

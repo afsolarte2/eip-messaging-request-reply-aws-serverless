@@ -1,0 +1,22 @@
+Resources:
+  RequestAdditionSnsTopicSubscriptionDLQ:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: ${self:custom.variables.request-addition-subscription-dlq-sqs-queue-name}
+      FifoQueue: true
+      # KmsMasterKeyId: alias/aws/sqs
+
+  RequestAdditionSnsTopicSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Endpoint: { "Fn::GetAtt": ["RequestAdditionSqsQueue", "Arn"] }
+      Protocol: sqs
+      RawMessageDelivery: true
+      # FilterPolicy:
+      #   eventType:
+      #     - additionCreated
+      TopicArn:
+        Ref: RequestAdditionSnsTopic
+      RedrivePolicy:
+        deadLetterTargetArn:
+          { "Fn::GetAtt": ["RequestAdditionSnsTopicSubscriptionDLQ", "Arn"] }

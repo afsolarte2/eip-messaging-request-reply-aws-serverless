@@ -1,0 +1,8 @@
+Resources:
+  RequestAdditionSnsTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      ContentBasedDeduplication: false
+      FifoTopic: true
+      # KmsMasterKeyId: alias/aws/sns
+      TopicName: ${self:custom.variables.request-addition-sns-topic-name}

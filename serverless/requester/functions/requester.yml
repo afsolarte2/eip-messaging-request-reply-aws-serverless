@@ -1,0 +1,2 @@
+requester:
+  handler: handlers/requester.handler

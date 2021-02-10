@@ -1,0 +1,26 @@
+{
+  "name": "eep-messaging-request-reply-aws-serverless",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/afsolarte2/eep-messaging-request-reply-aws-serverless.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/afsolarte2/eep-messaging-request-reply-aws-serverless/issues"
+  },
+  "homepage": "https://github.com/afsolarte2/eep-messaging-request-reply-aws-serverless#readme",
+  "devDependencies": {
+    "serverless-prune-plugin": "^1.4.3",
+    "serverless-pseudo-parameters": "^2.5.0"
+  },
+  "dependencies": {
+    "uuid": "^8.3.2"
+  }
+}

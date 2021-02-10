@@ -1,0 +1,37 @@
+### REQUESTER ###
+
+#### COMMUNICATION BRIDGE ####
+reply-addition-sns-topic-name: sns-${self:provider.stage}-topic-reply-addition.fifo
+reply-addition-sns-topic-arn: arn:aws:sns:#{AWS::Region}:#{AWS::AccountId}:${self:custom.variables.reply-addition-sns-topic-name}
+#### COMMUNICATION BRIDGE ####
+
+
+request-addition-sqs-queue-name: sqs-${self:provider.stage}-queue-request-addition.fifo
+request-addition-sqs-queue-arn: arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:${self:custom.variables.request-addition-sqs-queue-name}
+
+request-addition-dlq-sqs-queue-name: sqs-${self:provider.stage}-queue-request-addition-dlq.fifo
+request-addition-dlq-sqs-queue-arn: arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:${self:custom.variables.request-addition-dlq-sqs-queue-name}
+
+request-addition-subscription-dlq-sqs-queue-name: sqs-${self:provider.stage}-queue-request-addition-subscription-dlq.fifo
+
+
+
+
+
+
+
+### REPLIER ###
+
+#### COMMUNICATION BRIDGE ####
+request-addition-sns-topic-name: sns-${self:provider.stage}-topic-request-addition.fifo
+request-addition-sns-topic-arn: arn:aws:sns:#{AWS::Region}:#{AWS::AccountId}:${self:custom.variables.request-addition-sns-topic-name}
+#### COMMUNICATION BRIDGE ####
+
+
+reply-addition-sqs-queue-name: sqs-${self:provider.stage}-queue-reply-addition.fifo
+reply-addition-sqs-queue-arn: arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:${self:custom.variables.reply-addition-sqs-queue-name}
+
+reply-addition-dlq-sqs-queue-name: sqs-${self:provider.stage}-queue-reply-addition-dlq.fifo
+reply-addition-dlq-sqs-queue-arn: arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:${self:custom.variables.reply-addition-dlq-sqs-queue-name}
+
+reply-addition-subscription-dlq-sqs-queue-name: sqs-${self:provider.stage}-queue-reply-addition-subscription-dlq.fifo

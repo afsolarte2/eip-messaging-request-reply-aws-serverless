@@ -1,0 +1,36 @@
+Resources:
+  RequestAdditionDlqSqsQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: ${self:custom.variables.request-addition-dlq-sqs-queue-name}
+      FifoQueue: true
+      # KmsMasterKeyId: alias/aws/sqs
+
+  RequestAdditionSqsQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: ${self:custom.variables.request-addition-sqs-queue-name}
+      FifoQueue: true
+      # KmsMasterKeyId: alias/aws/sqs
+      RedrivePolicy:
+        deadLetterTargetArn: { 'Fn::GetAtt': ['RequestAdditionDlqSqsQueue', 'Arn'] }
+        maxReceiveCount: 5
+
+
+
+
+  RequestAdditionSqsQueuePolicy:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      Queues:
+        - Ref: RequestAdditionSqsQueue
+        - Ref: RequestAdditionSnsTopicSubscriptionDLQ
+      PolicyDocument:
+        Statement:
+          Effect: Allow
+          Principal: '*'
+          Action: sqs:SendMessage
+          Resource: '*'
+          Condition:
+            ArnEquals:
+              aws:SourceArn: ${self:custom.variables.request-addition-sns-topic-arn}

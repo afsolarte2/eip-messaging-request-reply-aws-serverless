@@ -1,0 +1,1 @@
+falta: Revisar cálculo de duplicados según el campo "Message deduplication ID" en SNS, Kms, Borrar cada mensaje procesado de la cola
