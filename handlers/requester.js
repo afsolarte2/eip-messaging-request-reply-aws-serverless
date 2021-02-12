@@ -1,25 +1,44 @@
 'use strict';
 
 const AWS = require('aws-sdk');
+const { v4: uuidv4 } = require('uuid');
 
 AWS.config.update({
   apiVersion: '2010-03-31',
   region: 'us-east-1'
 });
 
+const getRandomInt = (min, max) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+
+  return Math.floor(Math.random() * (max - min) + min);
+}
+
 module.exports.handler = async event => {
   const sns = new AWS.SNS()
-  const uuid = "abc-123"
+  const uuid = uuidv4()
+  const messagesToSend = getRandomInt(1, 40)
+
   const { TOPIC_REQUEST_ADDITION_ARN } = process.env
-  const messagesToSend = 1
 
   for (let index = 0; index < messagesToSend; index++) {
+    const deduplicationId = `${uuid}-${Math.floor(new Date().getTime() / 1000.0)}`
+
+    const message = JSON.stringify({
+      uuid,
+      sum: [
+        getRandomInt(1, 5),
+        getRandomInt(6, 10),
+        getRandomInt(11, 15)
+      ]
+    })
 
     const params = {
-      Message: '[1,2,3,4]',
+      Message: message,
       TopicArn: TOPIC_REQUEST_ADDITION_ARN,
-      MessageDeduplicationId: `${uuid}-${Date.now() / 1000}`,
-      MessageGroupId: 'myRequestGroup'
+      MessageDeduplicationId: deduplicationId,
+      MessageGroupId: 'requestAddition'
     };
 
     try {

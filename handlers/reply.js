@@ -11,7 +11,10 @@ module.exports.handler = async event => {
   const { QUEUE_REPLY_ADDITION_URL } = process.env
 
   for (const { body, receiptHandle } of Records) {
-    console.log('result', body)
+    const { uuid, result } = JSON.parse(body)
+
+    console.log('uuid', uuid)
+    console.log('result', result)
 
     try {
       const sqsParams = {
