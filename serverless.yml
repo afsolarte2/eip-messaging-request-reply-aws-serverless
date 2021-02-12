@@ -41,6 +41,9 @@ functions:
   - ${file(serverless/replier/functions/replier.yml)}
 
 resources:
+  # Shared
+  - ${file(serverless/shared/resources/aws-kms-key.yml)}
+
   # Request
   - ${file(serverless/requester/resources/aws-sns-request-addition-topic.yml)}
   - ${file(serverless/requester/resources/aws-sns-reply-addition-subscription.yml)}

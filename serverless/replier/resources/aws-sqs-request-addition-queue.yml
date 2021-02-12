@@ -4,14 +4,14 @@ Resources:
     Properties:
       QueueName: ${self:custom.variables.request-addition-dlq-sqs-queue-name}
       FifoQueue: true
-      # KmsMasterKeyId: alias/aws/sqs
+      KmsMasterKeyId: ${self:custom.variables.kms-custom-master-key}
 
   RequestAdditionSqsQueue:
     Type: AWS::SQS::Queue
     Properties:
       QueueName: ${self:custom.variables.request-addition-sqs-queue-name}
       FifoQueue: true
-      # KmsMasterKeyId: alias/aws/sqs
+      KmsMasterKeyId: ${self:custom.variables.kms-custom-master-key}
       RedrivePolicy:
         deadLetterTargetArn: { 'Fn::GetAtt': ['RequestAdditionDlqSqsQueue', 'Arn'] }
         maxReceiveCount: 5

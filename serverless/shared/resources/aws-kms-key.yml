@@ -1,0 +1,77 @@
+Resources:
+  CustomMasterKey:
+    Type: AWS::KMS::Key
+    Properties:
+      Description: Custom Master Key to Encrypt/Decrypt messages between SNS and SQS
+      Enabled: true
+      EnableKeyRotation: true
+      KeyPolicy:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Sid: Allow access for Root User
+            Effect: Allow
+            Principal:
+              AWS:
+                - arn:aws:iam::#{AWS::AccountId}:root
+            Action: kms:*
+            Resource: "*"
+          -
+            Sid: Allow access for Key Administrator
+            Effect: Allow
+            Principal:
+              AWS:
+                - arn:aws:iam::#{AWS::AccountId}:root
+            Action: [
+              kms:Create*,
+              kms:Describe*,
+              kms:Enable*,
+              kms:List*,
+              kms:Put*,
+              kms:Update*,
+              kms:Revoke*,
+              kms:Disable*,
+              kms:Get*,
+              kms:Delete*,
+              kms:TagResource,
+              kms:UntagResource,
+              kms:ScheduleKeyDeletion,
+              kms:CancelKeyDeletion
+            ]
+            Resource: "*"
+          -
+            Sid: Allow access for Key User (SNS IAM User)
+            Effect: Allow
+            Principal:
+              AWS:
+                - arn:aws:sts::#{AWS::AccountId}:assumed-role/${self:service}-${self:provider.stage}-#{AWS::Region}-lambdaRole/${self:service}-${self:provider.stage}-requester
+                - arn:aws:sts::#{AWS::AccountId}:assumed-role/${self:service}-${self:provider.stage}-#{AWS::Region}-lambdaRole/${self:service}-${self:provider.stage}-replier
+            Action: [
+              kms:GenerateDataKey*,
+              kms:Decrypt
+            ]
+            Resource: "*"
+          -
+            Sid: Allow access for Key User (SNS Service Principal)
+            Effect: Allow
+            Principal:
+              Service:
+                - sns.amazonaws.com
+                - sqs.amazonaws.com
+            Action: [
+              kms:GenerateDataKey*,
+              kms:Decrypt
+            ]
+            Resource: "*"
+      KeySpec: SYMMETRIC_DEFAULT
+      KeyUsage: ENCRYPT_DECRYPT
+      PendingWindowInDays: 7
+
+  CustomMasterKeyAlias:
+    Type: AWS::KMS::Alias
+    DependsOn:
+      - CustomMasterKey
+    Properties:
+      AliasName: ${self:custom.variables.kms-custom-master-key}
+      TargetKeyId:
+        Ref: CustomMasterKey

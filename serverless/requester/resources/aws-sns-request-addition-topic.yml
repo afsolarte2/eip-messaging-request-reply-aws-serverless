@@ -4,5 +4,5 @@ Resources:
     Properties:
       ContentBasedDeduplication: false
       FifoTopic: true
-      # KmsMasterKeyId: alias/aws/sns
+      KmsMasterKeyId: ${self:custom.variables.kms-custom-master-key}
       TopicName: ${self:custom.variables.request-addition-sns-topic-name}

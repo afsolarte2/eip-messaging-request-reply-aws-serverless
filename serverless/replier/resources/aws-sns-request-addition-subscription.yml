@@ -4,7 +4,7 @@ Resources:
     Properties:
       QueueName: ${self:custom.variables.request-addition-subscription-dlq-sqs-queue-name}
       FifoQueue: true
-      # KmsMasterKeyId: alias/aws/sqs
+      KmsMasterKeyId: ${self:custom.variables.kms-custom-master-key}
 
   RequestAdditionSnsTopicSubscription:
     Type: AWS::SNS::Subscription

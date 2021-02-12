@@ -1,3 +1,8 @@
+### SHARED ###
+kms-custom-master-key: alias/${self:service}-${self:provider.stage}
+
+
+
 ### REQUESTER ###
 
 #### COMMUNICATION BRIDGE ####
