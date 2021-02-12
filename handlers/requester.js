@@ -11,8 +11,9 @@ module.exports.handler = async event => {
   const sns = new AWS.SNS()
   const uuid = "abc-123"
   const { TOPIC_REQUEST_ADDITION_ARN } = process.env
+  const messagesToSend = 1
 
-  for (let index = 0; index < 10; index++) {
+  for (let index = 0; index < messagesToSend; index++) {
 
     const params = {
       Message: '[1,2,3,4]',
