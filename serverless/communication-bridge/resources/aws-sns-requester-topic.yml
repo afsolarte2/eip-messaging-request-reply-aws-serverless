@@ -1,8 +1,8 @@
 Resources:
-  ReplyAdditionSnsTopic:
+  RequestAdditionSnsTopic:
     Type: AWS::SNS::Topic
     Properties:
       ContentBasedDeduplication: false
       FifoTopic: true
       KmsMasterKeyId: ${self:custom.variables.kms-custom-master-key}
-      TopicName: ${self:custom.variables.reply-addition-sns-topic-name}
+      TopicName: ${self:custom.variables.request-sns-topic-name}

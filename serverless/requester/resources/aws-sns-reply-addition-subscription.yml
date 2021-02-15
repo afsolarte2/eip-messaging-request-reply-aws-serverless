@@ -12,9 +12,9 @@ Resources:
       Endpoint: { "Fn::GetAtt": ["ReplyAdditionSqsQueue", "Arn"] }
       Protocol: sqs
       RawMessageDelivery: true
-      # FilterPolicy:
-      #   eventType:
-      #     - additionCreated
+      FilterPolicy:
+        event:
+          - replyAddition
       TopicArn:
         Ref: ReplyAdditionSnsTopic
       RedrivePolicy:

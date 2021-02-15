@@ -17,12 +17,12 @@ const getRandomInt = (min, max) => {
 
 module.exports.handler = async event => {
   const sns = new AWS.SNS()
-  const uuid = uuidv4()
   const messagesToSend = getRandomInt(1, 40)
 
   const { TOPIC_REQUEST_ADDITION_ARN } = process.env
 
   for (let index = 0; index < messagesToSend; index++) {
+    const uuid = uuidv4()
     const deduplicationId = `${uuid}-${Math.floor(new Date().getTime() / 1000.0)}`
 
     const message = JSON.stringify({
@@ -38,8 +38,14 @@ module.exports.handler = async event => {
       Message: message,
       TopicArn: TOPIC_REQUEST_ADDITION_ARN,
       MessageDeduplicationId: deduplicationId,
-      MessageGroupId: 'requestAddition'
-    };
+      MessageGroupId: 'Requester',
+      MessageAttributes: {
+        event: {
+          DataType: 'String',
+          StringValue: 'requestAddition'
+        }
+      }
+    }
 
     try {
       const publishTextPromise = await sns.publish(params).promise();

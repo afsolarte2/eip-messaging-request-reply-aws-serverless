@@ -33,4 +33,4 @@ Resources:
           Resource: '*'
           Condition:
             ArnEquals:
-              aws:SourceArn: ${self:custom.variables.request-addition-sns-topic-arn}
+              aws:SourceArn: ${self:custom.variables.request-sns-topic-arn}

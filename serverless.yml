@@ -26,11 +26,11 @@ provider:
         - SNS:Publish
         - SNS:Subscribe
       Resource:
-      # Request
-        - ${self:custom.variables.request-addition-sns-topic-arn}
+      # Requester
+        - ${self:custom.variables.request-sns-topic-arn}
 
-      # Reply
-        - ${self:custom.variables.reply-addition-sns-topic-arn}
+      # Replier
+        - ${self:custom.variables.reply-sns-topic-arn}
     -
       Effect: Allow
       Action:
@@ -38,23 +38,23 @@ provider:
       Resource: "*"
 
 functions:
-  # Request
+  # Requester
   - ${file(serverless/requester/functions/requester.yml)}
   - ${file(serverless/requester/functions/reply.yml)}
 
-  # Reply
+  # Replier
   - ${file(serverless/replier/functions/replier.yml)}
 
 resources:
-  # Shared
-  - ${file(serverless/shared/resources/aws-kms-key.yml)}
+  # Communication bridge
+  - ${file(serverless/communication-bridge/resources/aws-kms-key.yml)}
+  - ${file(serverless/communication-bridge/resources/aws-sns-requester-topic.yml)}
+  - ${file(serverless/communication-bridge/resources/aws-sns-replier-topic.yml)}
 
-  # Request
-  - ${file(serverless/requester/resources/aws-sns-request-addition-topic.yml)}
+  # Requester
   - ${file(serverless/requester/resources/aws-sns-reply-addition-subscription.yml)}
   - ${file(serverless/requester/resources/aws-sqs-reply-addition-queue.yml)}
 
-  # Reply
-  - ${file(serverless/replier/resources/aws-sns-reply-addition-topic.yml)}
+  # Replier
   - ${file(serverless/replier/resources/aws-sns-request-addition-subscription.yml)}
   - ${file(serverless/replier/resources/aws-sqs-request-addition-queue.yml)}

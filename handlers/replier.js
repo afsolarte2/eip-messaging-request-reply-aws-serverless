@@ -19,7 +19,7 @@ module.exports.handler = async event => {
     console.log('uuid', uuid)
     console.log('result', result)
 
-    const deduplicationId = `${uuid}-${Math.floor(new Date().getTime()/1000.0)}`
+    const deduplicationId = `${uuid}-${Math.floor(new Date().getTime() / 1000.0)}`
     const messageBody = JSON.stringify({
       uuid,
       result
@@ -30,7 +30,13 @@ module.exports.handler = async event => {
         Message: messageBody,
         TopicArn: TOPIC_REPLY_ADDITION_ARN,
         MessageDeduplicationId: deduplicationId,
-        MessageGroupId: 'replyAddition'
+        MessageGroupId: 'Replier',
+        MessageAttributes: {
+          event: {
+            DataType: 'String',
+            StringValue: 'replyAddition'
+          }
+        }
       };
 
       const publishTextPromise = await sns.publish(snsParams).promise()
