@@ -26,10 +26,7 @@ provider:
         - SNS:Publish
         - SNS:Subscribe
       Resource:
-      # Requester
         - ${self:custom.variables.request-sns-topic-arn}
-
-      # Replier
         - ${self:custom.variables.reply-sns-topic-arn}
     -
       Effect: Allow
