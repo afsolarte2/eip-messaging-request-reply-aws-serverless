@@ -10,7 +10,7 @@ module.exports.handler = async event => {
   const sqs = new AWS.SQS({ apiVersion: '2012-11-05' })
 
   const { Records } = event
-  const { TOPIC_REPLY_ADDITION_ARN, QUEUE_REQUEST_ADDITION_URL } = process.env
+  const { TOPIC_REPLY_ARN, QUEUE_REQUEST_ADDITION_URL } = process.env
 
   for (const { body, receiptHandle } of Records) {
     const { uuid, sum } = JSON.parse(body)
@@ -28,7 +28,7 @@ module.exports.handler = async event => {
     try {
       const snsParams = {
         Message: messageBody,
-        TopicArn: TOPIC_REPLY_ADDITION_ARN,
+        TopicArn: TOPIC_REPLY_ARN,
         MessageDeduplicationId: deduplicationId,
         MessageGroupId: 'Replier',
         MessageAttributes: {
